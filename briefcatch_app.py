@@ -10,7 +10,7 @@ from datetime import datetime
 
 from ruleParser import *
 
-st.set_page_config(page_title='BriefCatch Wizard', page_icon=':briefcase:')
+st.set_page_config(page_title='BriefCatch Wizard v.1.5', page_icon=':briefcase:')
 
 # ==================================================================
 # LOADING THE NGRAMS FROM FILES
@@ -192,7 +192,7 @@ def runSubmit():
 # USER INTERFACE
 # =====================================================================
 
-st.header('BriefCatch Wizard :briefcase: :scales: :sparkles:')
+st.header('BriefCatch Wizard v.1.5 :briefcase: :scales: :sparkles:')
 st.markdown('---')
 
 st.write('Upload Excel file containing at least one rule to analyze.  \nThe Excel table must include at least the following column names:  \n[[Rule / Pattern]] and [[Rule ID]] to proceed.')
