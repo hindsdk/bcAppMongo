@@ -46,6 +46,12 @@ def df_to_excel(mydf):
 	output = BytesIO()
 	writer = pd.ExcelWriter(output, engine='xlsxwriter')
 	mydf.to_excel(writer,index=False,sheet_name='Results')
+	workbook  = writer.book
+	worksheet = writer.sheets['Results']
+	scoreformat = workbook.add_format({'num_format':'0.0000'})
+	start_col_idx = mydf.columns.get_loc('Norm')
+	end_col_idx = mydf.columns.get_loc('Gd-Rnd-Ratio')
+	worksheet.set_column(start_col_idx,end_col_idx,None,scoreformat)
 	writer.save()
 	processed_data = output.getvalue()
 	return processed_data
