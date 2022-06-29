@@ -45,6 +45,10 @@ def dfDict_to_excel(df0,dfDict):
 def df_to_excel(mydf):
 	output = BytesIO()
 	writer = pd.ExcelWriter(output, engine='xlsxwriter')
+	mydf['Norm'] = pd.to_numeric(mydf['Norm'], downcast='float')
+	mydf['Good'] = pd.to_numeric(mydf['Good'], downcast='float')
+	mydf['Random'] = pd.to_numeric(mydf['Random'], downcast='float')
+	mydf['Gd-Rnd-Ratio'] = pd.to_numeric(mydf['Gd-Rnd-Ratio'], downcast='float')
 	mydf.to_excel(writer,index=False,sheet_name='Results')
 	workbook  = writer.book
 	worksheet = writer.sheets['Results']
