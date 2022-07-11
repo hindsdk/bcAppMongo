@@ -117,7 +117,7 @@ def generateResultsAll(inputRuleDict):
 			masterResultDF.insert(1,'Correction / Recommendation',ruleLst[1])
 			masterResultDF.insert(2,'Rule ID',ruleID)
 			
-			outputResults.append(masterResultDF)
+			outputResults.append(masterResultDF.sort_values('Norm',ascending=False))
 			
 	if len(outputResults) > 0:
 		outputDF = pd.concat(outputResults)
