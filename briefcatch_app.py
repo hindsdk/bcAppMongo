@@ -174,9 +174,9 @@ def runSubmit():
 # =====================================================================
 
 st.header('BriefCatch Wizard :briefcase: :scales: :sparkles:')
-st.markdown('---')
+#st.markdown('---')
 
-st.write('Upload Excel file containing at least one rule to analyze.  \nThe Excel table must include at least the following column names:  \n[[Rule / Pattern]] and [[Rule ID]] to proceed.')
+st.write('Upload Excel file containing at least one rule to analyze. The Excel table must include at least the following column names:  \n[[Rule / Pattern]] and [[Rule ID]] to proceed.')
 
 load_file = st.file_uploader(label="",key='rule_file',accept_multiple_files=False, type=['.xlsx','.xls'])
 rank_option = st.selectbox('Rank results per score by:',('Norm', 'Good', 'Random','Gd-Rnd-Ratio'),key='rank_by')
