@@ -42,19 +42,20 @@ def dfDict_to_excel(df0,dfDict):
 	#href = f'<a href="data:file/txt;base64,{b64} downlad="{new_filename}">Click Here!</a>'
 	return processed_data
 
-def df_to_excel(mydf):
+def df_to_excel(mydf,rankOption):
 	output = BytesIO()
 	writer = pd.ExcelWriter(output, engine='xlsxwriter')
 	mydf['Norm'] = pd.to_numeric(mydf['Norm'], downcast='float')
 	mydf['Good'] = pd.to_numeric(mydf['Good'], downcast='float')
 	mydf['Random'] = pd.to_numeric(mydf['Random'], downcast='float')
 	mydf['Gd-Rnd-Ratio'] = pd.to_numeric(mydf['Gd-Rnd-Ratio'], downcast='float')
-	mydf.to_excel(writer,index=False,sheet_name='Results')
+	mydf_ranked = mydf.sort_values(by=['Rule ID',rankOption], ascending=[True,False])
+	mydf_ranked.to_excel(writer,index=False,sheet_name='Results')
 	workbook  = writer.book
 	worksheet = writer.sheets['Results']
 	scoreformat = workbook.add_format({'num_format':'0.0000'})
-	start_col_idx = mydf.columns.get_loc('Norm')
-	end_col_idx = mydf.columns.get_loc('Gd-Rnd-Ratio')
+	start_col_idx = mydf_ranked.columns.get_loc('Norm')
+	end_col_idx = mydf_ranked.columns.get_loc('Gd-Rnd-Ratio')
 	worksheet.set_column(start_col_idx,end_col_idx,None,scoreformat)
 	writer.save()
 	processed_data = output.getvalue()
@@ -165,7 +166,7 @@ def runSubmit():
 		if len(results_df.index) == 0:
 			st.warning('No viable results!')
 		else:
-			df_xlsx_binary = df_to_excel(results_df)
+			df_xlsx_binary = df_to_excel(results_df, rank_option)
 			st.download_button('Download Results', data=df_xlsx_binary,file_name='results_'+timestampStr+'.xlsx')
 
 # =====================================================================
@@ -178,10 +179,9 @@ st.markdown('---')
 st.write('Upload Excel file containing at least one rule to analyze.  \nThe Excel table must include at least the following column names:  \n[[Rule / Pattern]] and [[Rule ID]] to proceed.')
 
 load_file = st.file_uploader(label="",key='rule_file',accept_multiple_files=False, type=['.xlsx','.xls'])
+rank_option = st.selectbox('Rank results per score by:',('Norm', 'Good', 'Random','Gd-Rnd-Ratio'),key='rank_by')
 submit = st.button('SUBMIT',key='submit_btn')
 st.markdown('---')
-col1, col2 = st.columns(2)
-
-
+#col1, col2 = st.columns(2)
 if submit:
 	runSubmit()
